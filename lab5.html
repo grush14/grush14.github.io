@@ -13,8 +13,6 @@
 
 		<script src="https://grush14.github.io/lab4.js"></script>
 		
-		
-	<style>
 
 		<style type="text/css">
 		 html, body { margin: 0; padding: 0; height: 100%;}
@@ -53,7 +51,7 @@
 			ext: 'png'
 		});
 
-		var canvas = L.tileLayer(('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}', {attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+		var canvas = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner-lite/{z}/{x}/{y}{r}.{ext}', {attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 			subdomains: 'abcd', 
 			minZoom: 0,
 			maxZoom: 20,
@@ -62,12 +60,14 @@
 
 		var basemap = {
     		  "Light Canvas" : canvas,
-    		  "Satellite Imagery" : imagery,
+    		  "Satellite Imagery" : imagery
     		} ;
 
    		var overlaymaps = {
       			"China Provinces" : provinces
-		
+					 
+		 } ;
+					 
 		var provinces = new L.geoJson(data, {style:style}).addTo(map);
 		function getColor(value) {
 			return value > 50000000 ? '#54278f':                      
@@ -94,16 +94,16 @@
 		}
 			
 		var coviddata = new L.geojson(dataC, {
-		 onEachFeature = onEachFeature
-		 pointToLayer: function (feature, II) {
-		  return L.circleMarker(II, {
+		 onEachFeature : onEachFeature
+		 pointToLayer: function (feature, ll) {
+		  return L.circleMarker(ll, {
 			color: '#ffffff'
 			opacity: 1,
 			weight: 2,
 			fillColor: '#e31b1b',
 			fillOpacity: .5,
 			//radius: calcRadius(feature.properties.covid)
-		).addTo(map) ;
+		}).addTo(map) ;
 		
 		
    		 } ;
@@ -117,13 +117,12 @@
 			if(feature.properties) {
 			var prop = feature.properties;
 		
-		varpopup = '<h3>'+prop['Location']+'</h3>'+'<br>Cases Day 1: '+prop['1']+'<br>Cases Day 16: '+prop['covid'];
+		var popup = '<h3>'+prop['Location']+'</h3>'+'<br>Cases Day 1: '+prop['1']+'<br>Cases Day 16: '+prop['covid'];
 			feature.layer = layer;
 			layer.bindPopup(popup,{maxWidth: "auto"});
-			}
 		     });
 
-    		L.control.layers(basemaps, overlaymaps, {collapsed:false}).addTo(map);
+    		L.control.layers(basemap, overlaymaps, {collapsed:false}).addTo(map);
 		
 		var legend = L.control({position: 'bottomright'});
 			legend.onAdd = function (map) {
@@ -132,11 +131,11 @@
 			grades = [0, 1000000, 2000000, 5000000, 10000000];
 			div.innerHTML = '<b>Population 2019 <br><br></b>';
 
-		  for(var i = 0; i < grades.length; i++){
-		  div.innerHTML +=
-		  '<i style="background:' + getColor(grades[i] + 1) + "'></i> +
-		   grades[i] + grades[i + 1] ? '&ndash;' + grades[i+1] + '<br><br>':'+');
-			}
+		  for (var i = 0; i < grades.length; i++) {
+                     div.innerHTML +=
+                     '<i style="background:' + getColor(grades[i] + 1) + '"></i>' +
+                      grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br><br>' : '+');
+                      }
 
 			return div;
 			
@@ -151,7 +150,7 @@
 			}
 		     });
 
-			map.on('overlayadd', fuction(eventLayer){
+			map.on('overlayadd', function(eventLayer){
 			 if (eventLayer.name == 'provinces'){
 			  legend.addTo(map);
 			 }
