@@ -93,20 +93,24 @@
 		 return 0.9 * Math.pow(val/minValue, .7) * minRadius;
 		}
 			
-		var coviddata = new L.geojson(dataC, {
-		 onEachFeature : onEachFeature
-		 pointToLayer: function (feature, ll) {
-		  return L.circleMarker(ll, {
-			color: '#ffffff'
-			opacity: 1,
-			weight: 2,
-			fillColor: '#e31b1b',
-			fillOpacity: .5,
-			//radius: calcRadius(feature.properties.covid)
+		var coviddata = new L.geoJson(covidData, {
+                  onEachFeature: onEachFeature,
+                  pointToLayer: function(feature, ll){
+                   return L.circleMarker(ll, {
+                    color: '#000000',
+                    opacity: 1,
+                    weight: 2,
+                    fillColor: '#808080',
+                    fillOpacity: .5,
+                    //radius: 10
+                    radius: calcRadius(feature.properties.covid)
+                      });
 		}).addTo(map) ;
 		
 		
-   		 } ;
+		});
+		 
+		 
 		var styles = L.circleMarker(latlng,
 			  fillColor: "#d6182e",  
                           color: '#d6182e',      
