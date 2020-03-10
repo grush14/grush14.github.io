@@ -114,11 +114,15 @@
                     fillOpacity: .5,
                     //radius: 10
                     radius: calcRadius(feature.properties.covid)
+			   
                       });
+		  }
+		});
+				
 		coviddata.addTo(map) ;
 		
 		
-		});
+		
 		
 		var basemap = {
     		  "Light Canvas" : canvas,
