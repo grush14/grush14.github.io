@@ -103,7 +103,7 @@
                           fillOpacity: 0.5 
 		     });
 
-		var coviddata = new L.geoJson(covidData, {
+		var coviddata = new L.geoJson(dataC, {
                   onEachFeature: onEachFeature,
                   pointToLayer: function(feature, ll){
                    return L.circleMarker(ll, {
